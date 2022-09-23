@@ -1,27 +1,21 @@
+import React from 'react';
 import './footer-todo.css';
+import FooterFilter from '../footer-filter-todo';
 
-function FooterTodo() {
+export default class FooterTodo extends React.Component {
+  render() {
+    const {done, filter, onFilterChange} = this.props
     return (
-    <div className='todoapp footer__todo'>
-      <section className="main ">
-        <footer className="footer">
-          <span className="todo-count">1 items left</span>
-          <ul className="filters">
-            <li>
-              <button className="selected">All</button>
-            </li>
-            <li>
-              <button>Active</button>
-            </li>
-            <li>
-              <button>Completed</button>
-            </li>
-          </ul>
-          <button className="clear-completed">Clear completed</button>
-        </footer>
-        </section>
-    </div>
-    )
+      <div className='todoapp footer__todo'>
+        <section className="main ">
+          <footer className="footer">
+            <span className="todo-count">{done}items left</span>
+            <FooterFilter filter={filter}
+        onFilterChange ={onFilterChange}/>  
+            <button className="clear-completed">Clear completed</button>
+          </footer>
+          </section>
+      </div>
+      )
+  }
 }
-
-export default FooterTodo;
