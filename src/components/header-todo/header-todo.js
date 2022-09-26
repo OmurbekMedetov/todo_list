@@ -1,37 +1,50 @@
 import React from 'react';
 import './header-todo.css';
+import PropTypes from 'prop-types';
 
 export default class HeaderTodo extends React.Component {
   state = {
-    label: ''
-  }
+    label: '',
+  };
+
   onLabelChange = (event) => {
     this.setState({
-      label: event.target.value
-    })
-  }
+      label: event.target.value,
+    });
+  };
+
   onSubmit = (event) => {
-    event.preventDefault()
+    event.preventDefault();
     this.props.onItemAdded(this.state.label);
     this.setState({
-      label: ''
-    })
-  }
+      label: '',
+    });
+  };
+
   render() {
     return (
-      <div >
-          <section className="todoapp">
-        <header className="header">
-          <h1>todos</h1>
-          <form 
-          onSubmit={this.onSubmit}>
-          <input type ='text'className="new-todo" placeholder="What needs to be done?" 
-          onChange={this.onLabelChange}
-          value={this.state.label}/>
-          </form>
-        </header> 
+      <div>
+        <section className="todoapp">
+          <header className="header">
+            <h1>todos</h1>
+            <form
+              onSubmit={this.onSubmit}
+            >
+              <input
+                type="text"
+                className="new-todo"
+                placeholder="What needs to be done?"
+                onChange={this.onLabelChange}
+                value={this.state.label}
+              />
+            </form>
+          </header>
         </section>
       </div>
-      )
+    );
   }
 }
+
+HeaderTodo.propTypes = {
+  label: PropTypes.string,
+};

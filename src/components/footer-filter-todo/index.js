@@ -1,2 +1,3 @@
-import FooterFilter from "./footer-filter-todo";
+import FooterFilter from './footer-filter-todo';
+
 export default FooterFilter;
