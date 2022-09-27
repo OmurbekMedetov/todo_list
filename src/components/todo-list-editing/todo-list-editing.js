@@ -3,7 +3,10 @@ import './todo-list-editing.css';
 import PropTypes from 'prop-types';
 
 export default class ItemEditingTask extends Component {
-  state = { value: '' };
+  constructor(props) {
+    super(props);
+    this.state = { value: '' };
+  }
 
   componentDidMount() {
     const { label } = this.props;

@@ -1,45 +1,76 @@
 import './app.css';
 import React from 'react';
 import { formatDistanceToNow } from 'date-fns';
+
 import HeaderTodo from '../header-todo';
 import TaskListTodo from '../task-list-todo';
 import FooterTodo from '../footer-todo';
 
+const getId = () => Math.floor(Math.random() * 10 ** 10).toString();
+
 export default class TodoList extends React.Component {
-  maxId = 100;
-
-  state = {
-    array: [
-      this.createItem('Completed task'),
-      this.createItem('Editing task'),
-      this.createItem('Active task'),
-    ],
-    filter: 'all',
-    term: '',
-  }; 
-
-  createItem(label) {
+  static createItem(label) {
     return {
       label,
       done: false,
-      important: false,
-      id: this.maxId++,
+      id: getId(),
       editing: false,
     };
   }
 
-  reformatStateTodoData = (array, id, key) => array.map((el) => (el.id === id ? { ...el, [key]: !el[key] } : el));
-
-  onToggleEditing = (id) => {
-    this.setState(({ array }) => ({
-      array: this.reformatStateTodoData(array, id, 'editing'),
-    }));
+  static reformatStateTodoData = (array, id, key) => {
+    array.map((el) => (el.id === id ? { ...el, [key]: !el[key] } : el));
   };
 
-  onFormatLabel = (id, label) => {
-    this.setState(({ array }) => ({
-      array: array.map((el) => (el.id === id ? { ...el, label, editing: !el.editing } : el)),
-    }));
+  static onActive = ({ array }) => {
+    const idx = array.findIndex((el) => el.done === el);
+    const onActive = [...idx];
+    return {
+      array: onActive,
+    };
+  };
+
+  static filter(items, filter) {
+    switch (filter) {
+      case 'all':
+        return items;
+      case 'active':
+        return items.filter((item) => !item.done);
+      case 'done':
+        return items.filter((item) => item.done);
+      default:
+        return items;
+    }
+  }
+
+  static search(items, term) {
+    if (term.length === 0) {
+      return items;
+    }
+    return items.filter((item) => item.label.indexOf(term) > -1);
+  }
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      array: [TodoList.createItem('Completed task'), TodoList.createItem('Editing task'), TodoList.createItem('Active task')],
+      filter: 'all',
+      term: '',
+    };
+  }
+
+  addItem = (text) => {
+    const newItem = {
+      label: text,
+      done: false,
+      id: getId(),
+    };
+    this.setState(({ array }) => {
+      const newArray = [...array, newItem];
+      return {
+        array: newArray,
+      };
+    });
   };
 
   onToggleDone = (id) => {
@@ -64,43 +95,17 @@ export default class TodoList extends React.Component {
     });
   };
 
-  addItem = (text) => {
-    const newItem = {
-      label: text,
-      important: false,
-      done: false,
-      id: this.maxId++,
-    };
-    this.setState(({ array }) => {
-      const newArray = [...array, newItem];
-      return {
-        array: newArray,
-      };
-    });
+  onFormatLabel = (id, label) => {
+    this.setState(({ array }) => ({
+      array: array.map((el) => (el.id === id ? { ...el, label, editing: !el.editing } : el)),
+    }));
   };
 
-  onActive = ({ array }) => {
-    const idx = array.findIndex((el) => el.done === el);
-    const onActive = [...idx];
-    return {
-      array: onActive,
-    };
+  onToggleEditing = (id) => {
+    this.setState(({ array }) => ({
+      array: TodoList.reformatStateTodoData(array, id, 'editing'),
+    }));
   };
-
-  filter(items, filter) {
-    switch (filter) {
-      case 'all': return items;
-      case 'active': return items.filter((item) => !item.done);
-      case 'done': return items.filter((item) => item.done);
-    }
-  }
-
-  search(items, term) {
-    if (term.length === 0) {
-      return items;
-    }
-    return items.filter((item) => item.label.indexOf(term) > -1);
-  }
 
   onFilterChange = (filter) => {
     this.setState(() => ({ filter }));
@@ -114,18 +119,13 @@ export default class TodoList extends React.Component {
 
   render() {
     const { filter, array, term } = this.state;
-    const visibleItems = this.filter(this.search(array, term), filter);
+    const visibleItems = TodoList.filter(TodoList.search(array, term), filter);
     const doneCount = array.filter((el) => el.done).length;
     const todoCount = array.length - doneCount;
-    const date = formatDistanceToNow(
-      Date.now(),
-      { includeSeconds: true },
-    );
+    const date = formatDistanceToNow(Date.now(), { includeSeconds: true });
     return (
       <div>
-        <HeaderTodo
-          onItemAdded={this.addItem}
-        />
+        <HeaderTodo onItemAdded={this.addItem} />
         <TaskListTodo
           todos={visibleItems}
           onDelete={this.deleteItem}
