@@ -1,1 +1,1 @@
-https://omurbekmedetov.github.io/todo_list/
+https://todo-list-versel.vercel.app/
