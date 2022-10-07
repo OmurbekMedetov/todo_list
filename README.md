@@ -1,1 +1,1 @@
-todo-list-versel-jxsuhe628-omurbekmedetov.vercel.app
+https://todo-list-versel.vercel.app/
