@@ -53,7 +53,7 @@ export default class TodoList extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      array: [TodoList.createItem('Completed task'), TodoList.createItem('Editing task'), TodoList.createItem('Active task'), TodoList.createItem('My Task'), TodoList.createItem('My Task')],
+      array: [TodoList.createItem('Completed task'), TodoList.createItem('Editing task'), TodoList.createItem('Active task')],
       filter: 'all',
       term: '',
     };
