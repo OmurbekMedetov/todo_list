@@ -1,1 +1,1 @@
-todo-list-versel-jxsuhe628-omurbekmedetov.vercel.app
+https://omurbekmedetov.github.io/todo_list/
