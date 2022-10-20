@@ -12,7 +12,7 @@ export default function FooterTodo(props) {
     <div className="todoapp footer__todo">
       <section className="main ">
         <footer className="footer">
-          <span className="todo-count">
+          <span className="todo_count">
             {done}
             items left
           </span>
