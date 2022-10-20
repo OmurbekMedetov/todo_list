@@ -1,12 +1,16 @@
 import React from 'react';
 import './task-list-todo.css';
 import PropTypes from 'prop-types';
-
 import TaskListTodoItem from '../task-list-todoitem';
 
 export default function TaskListTodo({
-  todos, onDelete, onToggleDone, onToggleEditing, date, onFormatLabel,
+  todos, onDelete, onToggleDone, onToggleEditing, date, onFormatLabel, onPlay, onPause,
 }) {
+  if (todos.length === 0) {
+    return (
+      <span className="description__span">No Task</span>
+    );
+  }
   const elements = todos.map((items) => (
     <TaskListTodoItem
       key={items.id}
@@ -17,6 +21,10 @@ export default function TaskListTodo({
       onToggleEditing={() => onToggleEditing(items.id)}
       date={date}
       onFormatLabel={(lb) => onFormatLabel(items.id, lb)}
+      min={items.min}
+      sec={items.sec}
+      onPlay={() => onPlay(items.id)}
+      onPause={() => onPause(items.id)}
     />
   ));
   return (
@@ -39,4 +47,6 @@ TaskListTodo.propTypes = {
   onToggleEditing: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
   onFormatLabel: PropTypes.func.isRequired,
+  onPlay: PropTypes.func.isRequired,
+  onPause: PropTypes.func.isRequired,
 };

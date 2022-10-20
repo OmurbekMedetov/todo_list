@@ -1,8 +1,8 @@
-import { Component } from 'react';
+import React from 'react';
 import './todo-list-editing.css';
 import PropTypes from 'prop-types';
 
-export default class ItemEditingTask extends Component {
+export default class ItemEditingTask extends React.Component {
   constructor(props) {
     super(props);
     this.state = { value: '' };

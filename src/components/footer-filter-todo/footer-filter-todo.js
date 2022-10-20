@@ -7,7 +7,6 @@ export default class FooterFilter extends React.Component {
     { name: 'all', label: 'All' },
     { name: 'active', label: 'Active' },
     { name: 'done', label: 'Done' },
-    { name: 'allow', label: 'Hi' },
   ];
 
   render() {
