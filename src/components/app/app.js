@@ -137,7 +137,7 @@ export default class TodoList extends React.Component {
               }
 
               if (el.sec < 0) {
-                el.min -= 1;
+                el.min += 1;
                 el.sec = 59;
               }
 
