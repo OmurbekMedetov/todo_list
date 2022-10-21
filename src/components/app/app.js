@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 import './app.css';
 import React from 'react';
@@ -132,12 +133,12 @@ export default class TodoList extends React.Component {
         array: [...array].map((el) => {
           if (el.id === id) {
             if (el.backTimer) {
-              if (el.sec >= 0) {
-                el.sec -= 1;
+              if (el.sec > 0) {
+                el.sec--;
               }
 
               if (el.sec < 0) {
-                el.min += 1;
+                el.min++;
                 el.sec = 59;
               }
 
@@ -146,12 +147,11 @@ export default class TodoList extends React.Component {
               }
             } else {
               if (el.sec < 59) {
-                // eslint-disable-next-line no-plusplus
                 el.sec++;
               }
               if (el.sec === 59) {
                 el.sec = 0;
-                el.min += 1;
+                el.min++;
               }
             }
           }
