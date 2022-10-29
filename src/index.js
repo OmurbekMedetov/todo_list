@@ -1,6 +1,6 @@
 import * as ReactDOMClient from 'react-dom/client';
 
-import TodoList from './components/app';
+import TodoListHookies from './components/app/app';
 
 const todo = ReactDOMClient.createRoot(document.querySelector('.root'));
-todo.render(<TodoList />);
+todo.render(<TodoListHookies />);
