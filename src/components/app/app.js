@@ -84,8 +84,8 @@ export default class TodoList extends React.Component {
   onToggleDone = (id) => {
     this.setState(({ array }) => {
       const idx = array.findIndex((el) => el.id === id);
-      const oldItem = array[idx];
-      const newItem = { ...oldItem, done: !oldItem.done };
+      const oldItems = array[idx];
+      const newItem = { ...oldItems, done: !oldItems.done };
       const newArray = [...array.slice(0, idx), newItem, ...array.slice(idx + 1)];
       return {
         array: newArray,
