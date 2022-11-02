@@ -133,11 +133,11 @@ export default class TodoList extends React.Component {
           if (el.id === id) {
             if (el.backTimer) {
               if (el.sec >= 0) {
-                el.sec--;
+                el.sec -= 1;
               }
 
               if (el.sec < 0) {
-                el.min--;
+                el.min -= 1;
                 el.sec = 59;
               }
 
@@ -147,11 +147,11 @@ export default class TodoList extends React.Component {
             } else {
               if (el.sec < 59) {
                 // eslint-disable-next-line no-plusplus
-                el.sec++;
+                el.sec += 1;
               }
               if (el.sec === 59) {
                 el.sec = 0;
-                el.min++;
+                el.min += 1;
               }
             }
           }
