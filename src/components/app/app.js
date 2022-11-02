@@ -114,6 +114,9 @@ export default function TodoListHookies() {
               el.min--;
               el.sec = 59;
             }
+            if (el.sec === 0 && el.min === 0) {
+              onPause(id);
+            }
           } else {
             if (el.sec < 0) {
               el.sec++;
