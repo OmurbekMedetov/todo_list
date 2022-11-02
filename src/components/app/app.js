@@ -9,6 +9,7 @@ import TaskListTodo from '../task-list-todo/task-list-todo';
 import FooterTodo from '../footer-todo/footer-todo';
 
 const getId = () => Math.floor(Math.random() * 10 ** 10).toString();
+let counter;
 
 export default function TodoListHookies() {
   const [array, setArray] = useState([]);
@@ -26,14 +27,6 @@ export default function TodoListHookies() {
 
   // eslint-disable-next-line max-len
   const reformatStateTodoData = (arrays, id, key) => arrays.map((el) => (el.id === id ? { ...el, [key]: !el[key] } : el));
-
-  const onActive = () => {
-    const idx = array.findIndex((el) => el.done === el);
-    const onActivies = [...idx];
-    return {
-      array: onActivies,
-    };
-  };
 
   const filters = (items, footerfilter) => {
     switch (footerfilter) {
@@ -56,13 +49,14 @@ export default function TodoListHookies() {
   };
 
   useEffect(() => {
-    const local = JSON.parse(localStorage.getItem('state'));
-    setArray(local);
+    if (localStorage.getItem('state')) {
+      setArray(JSON.parse(localStorage.getItem('state')));
+    }
   }, []);
 
   useEffect(() => {
-    localStorage.setItem('state', JSON.stringify(array));
-  }, []);
+    if (array.length !== 0) localStorage.setItem('state', JSON.stringify(array));
+  }, [array]);
 
   const addItem = (text, min, sec, backTimer) => {
     const newItem = createItem(text, min, sec, backTimer);
@@ -95,58 +89,49 @@ export default function TodoListHookies() {
   };
 
   const onFilterChange = (filteries) => {
-    setFilter({ filter: filteries });
-    console.log(filter);
+    setFilter(filteries);
   };
 
   const clearComplete = () => {
     const arrayFilter = array.filter((item) => !item.done);
     setArray(arrayFilter);
   };
-  let counter;
-  // eslint-disable-next-line react/no-unused-class-component-methods
+
+  const onPause = (id) => {
+    array.map((el) => (el.id === id ? clearInterval(counter) : clearInterval(counter)));
+  };
+
   const onPlay = (id) => {
     counter = setInterval(() => {
-      setArray({
-        array: [...array].map((el) => {
-          if (el.id === id) {
-            if (el.backTimer) {
-              if (el.sec >= 0) {
-                el.sec--;
-              }
+      setArray((arrays) => arrays.map((el) => {
+        if (el.id === id) {
+          if (el.backTimer) {
+            if (el.sec >= 0) {
+              el.sec--;
+            }
 
-              if (el.sec < 0) {
-                el.min--;
-                el.sec = 59;
-              }
-
-              if (el.min === 0 && el.sec === 0) {
-                onPause();
-              }
-            } else {
-              if (el.sec < 59) {
-                // eslint-disable-next-line no-plusplus
-                el.sec++;
-              }
-              if (el.sec === 59) {
-                el.sec = 0;
-                el.min++;
-              }
+            if (el.sec < 0) {
+              el.min--;
+              el.sec = 59;
+            }
+          } else {
+            if (el.sec < 0) {
+              el.sec++;
+            }
+            if (el.sec < 59) {
+              // eslint-disable-next-line no-plusplus
+              el.sec++;
+            }
+            if (el.sec === 59) {
+              el.sec = 0;
+              el.min++;
             }
           }
-          return el;
-        }),
-      });
+        }
+        return el;
+      }));
     }, 1000);
   };
-
-  const onPause = () => {
-    clearInterval(counter);
-  };
-
-  // const {
-  //   filter, array, term,
-  // } = this.state;
   const visibleItems = filters(search(array, term), filter);
   const doneCount = array.filter((el) => el.done).length;
   const todoCount = array.length - doneCount;

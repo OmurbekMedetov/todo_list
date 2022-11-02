@@ -17,7 +17,7 @@ export default function FooterTodo(props) {
             items left
           </span>
           <FooterFilter filter={filter} onFilterChange={onFilterChange} />
-          <button type="button" className="clear-completed" onClick={() => clearComplete}>
+          <button type="button" className="clear-completed" onClick={clearComplete}>
             Clear completed
           </button>
         </footer>

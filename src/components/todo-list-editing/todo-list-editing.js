@@ -1,53 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import './todo-list-editing.css';
 import PropTypes from 'prop-types';
 
-export default class ItemEditingTask extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { value: '' };
-  }
+export default function ItemEditingTask({ onFormatLabel, label }) {
+  const ref = useRef(null);
+  const [value, setValue] = useState(label);
 
-  componentDidMount() {
-    const { label } = this.props;
-    this.setState({ value: label });
-    this.input.focus();
-  }
-
-  handleSubmit = (e) => {
+  useEffect(() => {
+    ref.current.focus();
+  }, []);
+  const handleSubmit = (e) => {
     e.preventDefault();
-    const { value } = this.state;
-    const { onFormatLabel } = this.props;
     onFormatLabel(value);
   };
 
-  handleChange = (e) => {
-    this.setState({ value: e.target.value });
+  const handleChange = (e) => {
+    setValue(e.target.value);
   };
 
-  blur = () => {
-    const { value } = this.state;
-    const { onFormatLabel } = this.props;
+  const blur = () => {
     onFormatLabel(value);
   };
-
-  render() {
-    const { value } = this.state;
-    return (
-      <form onSubmit={this.handleSubmit}>
-        <input
-          type="text"
-          className="edit"
-          value={value}
-          onChange={this.handleChange}
-          onBlur={this.blur}
-          ref={(input) => {
-            this.input = input;
-          }}
-        />
-      </form>
-    );
-  }
+  return (
+    <form onSubmit={handleSubmit}>
+      <input
+        type="text"
+        className="edit"
+        value={value}
+        onChange={handleChange}
+        onBlur={blur}
+        ref={ref}
+      />
+    </form>
+  );
 }
 
 ItemEditingTask.defaultProps = {
