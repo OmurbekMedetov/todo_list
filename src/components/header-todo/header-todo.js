@@ -68,8 +68,8 @@ export default class HeaderTodo extends React.Component {
                 onChange={this.onLabelChange}
                 value={label}
               />
-              <input className="new-todo-form__timer" placeholder="Min" type="number" onChange={this.onMinutChange} value={min} />
-              <input className="new-todo-form__timer" placeholder="Sec" type="number" onChange={this.onSecondChange} value={sec} />
+              <input className="new-todo-form__timer" placeholder="min" type="number" onChange={this.onMinutChange} value={min} />
+              <input className="new-todo-form__timer" placeholder="sec" type="number" onChange={this.onSecondChange} value={sec} />
             </form>
           </header>
         </section>
