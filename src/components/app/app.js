@@ -125,6 +125,10 @@ export default class TodoList extends React.Component {
     }));
   };
 
+  onPause = () => {
+    clearInterval(this.couter);
+  };
+
   // eslint-disable-next-line react/no-unused-class-component-methods
   onPlay = (id) => {
     this.couter = setInterval(() => {
@@ -133,17 +137,17 @@ export default class TodoList extends React.Component {
         array: [...array].map((el) => {
           if (el.id === id) {
             if (el.backTimer) {
-              if (el.sec > 0) {
+              if (el.sec >= 0) {
                 el.sec--;
               }
 
               if (el.sec < 0) {
-                el.min++;
+                el.min--;
                 el.sec = 59;
               }
 
-              if (el.min === 0 && el.sec === 0) {
-                this.onPause();
+              if (el.sec === 0 && el.min === 0) {
+                clearInterval(this.couter);
               }
             } else {
               if (el.sec < 59) {
@@ -159,10 +163,6 @@ export default class TodoList extends React.Component {
         }),
       });
     }, 1000);
-  };
-
-  onPause = () => {
-    clearInterval(this.couter);
   };
 
   render() {
