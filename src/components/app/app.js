@@ -118,9 +118,6 @@ export default function TodoListHookies() {
               onPause(id);
             }
           } else {
-            if (el.sec < 0) {
-              el.sec++;
-            }
             if (el.sec < 59) {
               // eslint-disable-next-line no-plusplus
               el.sec++;
